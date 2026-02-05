@@ -3,7 +3,13 @@ We may also want to develop an API to be called by registers and managers to ret
 
 In more detailed form:
 + Backend database to house product information (SQL, most likely)
+	- SKU code, product price, unit price, supplier (optionally, expiration data as well)
 + API for registers and managers to retrieve and perform functions on the database.
-+ For registers, it needs to retrieve the price of a scanned item, and reduce stock after the checkout is complete.
-+ For managers, it should be able to view and edit the entire database safely. Update stock, update price, and probably more.
-+ QOL functionality, like automatic ordering of low stock or coupon application.  
+	- For POS, it needs to retrieve the price of a scanned item, and reduce stock after the checkout is complete.
+	- For employees, more advanced functions. View tracked inventory and price, and apply updates to stock count.
+	- For managers, it should be able to view and edit the entire database safely. Update stock, update price, and probably more.
++ It seems like we'll need more than that if we want to satisfy the requirements, so here's some other pitches
+	- Automatic orders
+	- Store analytics, like determining slow-moving products, products that expire more than sell, and demand patterns
+	- Web dashboard for remote and mobile devices
+	- 

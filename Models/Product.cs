@@ -1,5 +1,6 @@
 ﻿namespace store_stock_tracker.Models
 {
+    //Simple product model
     public class Product
     {
         public int Id { get; set; }

@@ -4,6 +4,8 @@ using store_stock_tracker.Models;
 
 namespace store_stock_tracker.Controllers;
 
+
+//Test endpoint for API calls
 [ApiController]
 [Route("api/products")]
 public class ProductsController : ControllerBase

@@ -12,7 +12,3 @@ In more detailed form:
 	- Automatic orders
 	- Store analytics, like determining slow-moving products, products that expire more than sell, and demand patterns
 	- Web dashboard for remote and mobile devices
-	- 
-+ For registers, it needs to retrieve the price of a scanned item, and reduce stock after the checkout is complete. If the item is bought as a multiple then a price sum is needed and the stcok needs to be reduced by the correct amount.
-+ For managers, it should be able to view and edit the entire database safely. Update stock, update price, and probably more.
-+ QOL functionality, like automatic ordering of low stock or coupon application.  

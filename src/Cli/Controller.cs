@@ -1,5 +1,6 @@
 
 
+using store_stock_tracker.src.Cli.Utils;
 using System.Text;
 using System.Xml;
 
@@ -26,17 +27,21 @@ public static class Controller
                 // User chose to exit
                 if (choice == "Exit Program")
                 {
-                    Console.WriteLine("Goodbye!");
+                    Console.WriteLine("Goodbye");
                     Thread.Sleep(250);
                 }
+                // user shose to view current stock
                 else if (choice == "Check Current Stock")
                 {
                     Console.WriteLine("Showing Current Stock...");
+                    Console.WriteLine(StockDisplay.DisplayStock());
                     Thread.Sleep(250);
                 }
+                // user shose to view current stock
                 else if (choice == "Check Current Prices")
                 {
                     Console.WriteLine("Showing Prices...");
+                    Console.WriteLine(PriceDisplay.DisplayPrices());
                     Thread.Sleep(250);
                 }
             }

@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>store_stock_tracker</RootNamespace>
+    <StartupObject>Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

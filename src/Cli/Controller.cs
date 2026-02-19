@@ -1,6 +1,7 @@
 
 
 using store_stock_tracker.src.Cli.Utils;
+using System.Numerics;
 using System.Text;
 using System.Xml;
 
@@ -15,7 +16,7 @@ public static class Controller
                 Console.WriteLine("This is running");
 
                 // Shows menu options
-                string[] options = new[] { "Check Current Stock", "Check Current Prices", "Exit Program" };
+                string[] options = new[] { "List all SKU codes", "Check Current Stock", "Check Current Prices", "Update Stock", "Update Prices", "See Trending Items", "Exit Program" };
                 int x = 0; // Start at the first option in array
                 Console.WriteLine("Please select from the following: ", options);
                 while (x < options.Length) // Loop until every option displayed
@@ -23,25 +24,50 @@ public static class Controller
                     Console.WriteLine(options[x]);
                     x += 1; // advance loop
                 }
+                Console.WriteLine();
                 string choice = Console.ReadLine();
-                // User chose to exit
-                if (choice == "Exit Program")
-                {
-                    Console.WriteLine("Goodbye");
-                    Thread.Sleep(250);
-                }
-                // user shose to view current stock
-                else if (choice == "Check Current Stock")
+                // user chose to view current stock
+                if (choice == "Check Current Stock")
                 {
                     Console.WriteLine("Showing Current Stock...");
                     Console.WriteLine(StockDisplay.DisplayStock());
                     Thread.Sleep(250);
                 }
-                // user shose to view current stock
+                // user chose to view current stock
                 else if (choice == "Check Current Prices")
                 {
                     Console.WriteLine("Showing Prices...");
                     Console.WriteLine(PriceDisplay.DisplayPrices());
+                    Thread.Sleep(250);
+                }
+                // user chose to edit Stock
+                else if (choice == "Update Stock")
+                {
+                    Console.WriteLine("Showing Current Stock...");
+                    Console.WriteLine("Please select from the following: ");
+                    Console.WriteLine(StockDisplay.DisplayStock());
+                    // Console.ReadLine();
+                    Thread.Sleep(250);
+                }
+                // user chose to edit Prices
+                else if (choice == "Update Prices")
+                {
+                    Console.WriteLine("Showing Prices...");
+                    Console.WriteLine("Please select from the following: ");
+                    Console.WriteLine(PriceDisplay.DisplayPrices());
+                    // Console.ReadLine();
+                    Thread.Sleep(250);
+                }
+                else if (choice == "See Trending Items")
+                {
+                    Console.WriteLine("Currently Trending Items...");
+                    // API call to get trending items would go here
+                    Thread.Sleep(250);
+                }
+                // User chose to exit
+                else if (choice == "Exit Program")
+                {
+                    Console.WriteLine("Goodbye");
                     Thread.Sleep(250);
                 }
             }

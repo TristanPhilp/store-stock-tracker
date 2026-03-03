@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using store_stock_tracker.Models;
 
+
 namespace store_stock_tracker.Data
 {
     //Sets a database to be structured based on the Product model.
@@ -11,5 +12,8 @@ namespace store_stock_tracker.Data
             : base(options) { }
 
         public DbSet<Product> Products => Set<Product>();
+
+        
     }
+
 }

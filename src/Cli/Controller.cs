@@ -1,10 +1,9 @@
-
-
+using Microsoft.Data.Sqlite;
 using store_stock_tracker.src.Cli.Utils;
 using System.Numerics;
 using System.Text;
 using System.Xml;
-
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 public static class Controller
 {
     public static int RunCli()
@@ -13,7 +12,7 @@ public static class Controller
         {
             try
             {
-                Console.WriteLine("This is running");
+                //Console.WriteLine("This is running");
 
                 // Shows menu options
                 string[] options = new[] { "List all SKU codes", "Check Current Stock", "Check Current Prices", "Update Stock", "Update Prices", "See Trending Items", "Exit Program" };
@@ -30,14 +29,15 @@ public static class Controller
                 if (choice == "Check Current Stock")
                 {
                     Console.WriteLine("Showing Current Stock...");
-                    Console.WriteLine(StockDisplay.DisplayStock());
+                    DataClass.GetStock();
+
                     Thread.Sleep(250);
                 }
                 // user chose to view current stock
                 else if (choice == "Check Current Prices")
                 {
                     Console.WriteLine("Showing Prices...");
-                    Console.WriteLine(PriceDisplay.DisplayPrices());
+                    DataClass.GetPrice();
                     Thread.Sleep(250);
                 }
                 // user chose to edit Stock
@@ -69,6 +69,10 @@ public static class Controller
                 {
                     Console.WriteLine("Goodbye");
                     Thread.Sleep(250);
+                }
+                else if (choice == "Test")
+                {
+                    Console.WriteLine("Using secret path");
                 }
             }
             catch (Exception ex)

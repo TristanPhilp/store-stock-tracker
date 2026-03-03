@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,5 +26,6 @@ namespace store_stock_tracker.src.Cli.Utils
             }
             return Stock.ToString();
         }
+
     }
 }

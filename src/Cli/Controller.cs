@@ -31,73 +31,43 @@ public static class Controller
                     case "1":
                         Console.WriteLine("Showing Table");
                         DataClass.GetFullTable();
-                        Thread.Sleep(250);
                         break;
                     case "2":
                         Console.WriteLine("Showing Current Stock...");
-                        DataClass.GetStock();
+                        Console.WriteLine("Please select from the following SKU: ");
+                        StockUpdater.StockUpdate();
+                        break;
+                    case "3":
+                        Console.WriteLine("Showing Prices...");
+                        Console.WriteLine("Please select from the following SKU: ");
+                        PriceUpdater.PriceUpdate();
                         Thread.Sleep(250);
                         break;
-
+                    case "4":
+                        Console.WriteLine("Showing Items With Low Stock...");
+                        DataClass.GetRestockWarning();
+                        break;
+                    case "5":
+                        Console.WriteLine("Current Restock Warnings...");
+                        DataClass.GetRestockThreshold();
+                        break;
+                    case "6":
+                        Console.WriteLine("Showing Restock Thresholds...");
+                        Console.WriteLine("Please select from the following SKU: ");
+                        RestockUpdater.RestockUpdate();
+                        break;
+                    case "7":
+                        Console.WriteLine("Goodbye");
+                        return 0;
+                    default:
+                        Console.WriteLine("Selection was invalid. Enter the number associated with your selection.");
+                        break;
                 }
-                if (true) { }
-                else if (choice == "2")
-                {
-                    
-                }
-                // user chose to view current stock
-                else if (choice == "3")
-                {
-                    Console.WriteLine("Showing Prices...");
-                    DataClass.GetPrice();
-                    Thread.Sleep(250);
-                }
-                // user chose to edit Stock
-                else if (choice == "4")
-                {
-                    Console.WriteLine("Showing Current Stock...");
-                    Console.WriteLine("Please select from the following SKU: ");
-                    StockUpdater.StockUpdate();
-                    Thread.Sleep(250);
-                }
-                // user chose to edit Prices
-                else if (choice == "5")
-                {
-                    Console.WriteLine("Showing Prices...");
-                    Console.WriteLine("Please select from the following SKU: ");
-                    PriceUpdater.PriceUpdate(); 
-                    Thread.Sleep(250);
-                }
-                else if (choice == "6")
-                {
-                    Console.WriteLine("Showing Items With Low Stock...");
-                    DataClass.GetRestockWarning();
-                    Thread.Sleep(250);
-                }
-                else if (choice == "7")
-                {
-                    Console.WriteLine("Current Restock Warnings...");
-                    DataClass.GetRestockThreshold();
-                    Thread.Sleep(250);
-                }
-                else if (choice == "8")
-                {
-                    Console.WriteLine("Showing Restock Thresholds...");
-                    Console.WriteLine("Please select from the following SKU: ");
-                    RestockUpdater.RestockUpdate();
-                    Thread.Sleep(250);
-                }
-                // User chose to exit
-                else if (choice == "9")
-                {
-                    Console.WriteLine("Goodbye");
-                    Thread.Sleep(250);
-                    return 0;
-                }
+                Thread.Sleep(250);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine(ex);  
             }
         }
     }

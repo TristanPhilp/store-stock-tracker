@@ -29,34 +29,24 @@ public static class Controller
 
                 switch (choice) {
                     case "1":
-                        Console.WriteLine("Showing Table");
                         DataClass.GetFullTable();
                         break;
                     case "2":
                         SKUSearcher.SearchSKU();
                         break;
                     case "3":
-                        Console.WriteLine("Showing Current Stock...");
-                        Console.WriteLine("Please select from the following SKU: ");
                         StockUpdater.StockUpdate();
                         break;
                     case "4":
-                        Console.WriteLine("Showing Prices...");
-                        Console.WriteLine("Please select from the following SKU: ");
                         PriceUpdater.PriceUpdate();
-                        Thread.Sleep(250);
                         break;
                     case "5":
-                        Console.WriteLine("Showing Items With Low Stock...");
                         DataClass.GetRestockWarning();
                         break;
                     case "6":
-                        Console.WriteLine("Current Restock Warnings...");
                         DataClass.GetRestockThreshold();
                         break;
                     case "7":
-                        Console.WriteLine("Showing Restock Thresholds...");
-                        Console.WriteLine("Please select from the following SKU: ");
                         RestockUpdater.RestockUpdate();
                         break;
                     case "8":

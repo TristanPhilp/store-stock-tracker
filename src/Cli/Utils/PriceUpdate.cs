@@ -19,6 +19,10 @@ namespace store_stock_tracker.src.Cli.Utils
             var command = sqlite.CreateCommand();
             command.CommandText = @"SELECT * FROM Products";
             sqlite.Open();
+
+
+            Console.WriteLine("Showing Prices...");
+            Console.WriteLine("Please select from the following SKU: ");
             using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())

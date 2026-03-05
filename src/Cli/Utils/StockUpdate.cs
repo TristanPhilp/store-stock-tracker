@@ -17,6 +17,10 @@ namespace store_stock_tracker.src.Cli.Utils
             SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
             var command = sqlite.CreateCommand();
             command.CommandText = @"SELECT * FROM Products";
+
+
+            Console.WriteLine("Showing Current Stock...");
+            Console.WriteLine("Please select from the following SKU: ");
             sqlite.Open();
             using (var reader = command.ExecuteReader())
             {

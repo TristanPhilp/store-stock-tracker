@@ -15,6 +15,7 @@ namespace store_stock_tracker.src.Cli.Utils
             var command = sqlite.CreateCommand();
             command.CommandText = @"SELECT * FROM Products";
             sqlite.Open();
+            Console.WriteLine("Showing Table");
             using (var reader = command.ExecuteReader())
             {
                 Console.WriteLine("Name            |SKU             |Quantity |   Price | Restock Threshold");
@@ -88,6 +89,7 @@ namespace store_stock_tracker.src.Cli.Utils
             var command = sqlite.CreateCommand();
             command.CommandText = @"SELECT * FROM Products";
             sqlite.Open();
+            Console.WriteLine("Showing Items With Low Stock...");
             using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())
@@ -107,6 +109,8 @@ namespace store_stock_tracker.src.Cli.Utils
             var command = sqlite.CreateCommand();
             command.CommandText = @"SELECT * FROM Products";
             sqlite.Open();
+
+            Console.WriteLine("Current Restock Warnings...");
             using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())

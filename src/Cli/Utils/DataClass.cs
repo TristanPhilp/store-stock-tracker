@@ -3,6 +3,7 @@ using System;
 using System.Data;
 using System.Data.SQLite;
 using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace store_stock_tracker.src.Cli.Utils
@@ -11,12 +12,8 @@ namespace store_stock_tracker.src.Cli.Utils
     {
         public static void GetFullTable()
         {
-            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
-            var command = sqlite.CreateCommand();
-            command.CommandText = @"SELECT * FROM Products";
-            sqlite.Open();
             Console.WriteLine("Showing Table");
-            using (var reader = command.ExecuteReader())
+            using (var reader = OpenDataReader())
             {
                 Console.WriteLine("Name            |SKU             |Quantity |   Price | Restock Threshold");
                 while (reader.Read())
@@ -32,12 +29,8 @@ namespace store_stock_tracker.src.Cli.Utils
 
         }
         public static void GetSKU()
-        {
-            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
-            var command = sqlite.CreateCommand();
-            command.CommandText = @"SELECT * FROM Products";
-            sqlite.Open();
-            using (var reader = command.ExecuteReader())
+        { 
+            using (var reader = OpenDataReader())
             {
                 while (reader.Read())
                 {
@@ -50,11 +43,7 @@ namespace store_stock_tracker.src.Cli.Utils
         
         public static void GetStock()
         {
-            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
-            var command = sqlite.CreateCommand();
-            command.CommandText = @"SELECT * FROM Products";
-            sqlite.Open();
-            using (var reader = command.ExecuteReader())
+            using (var reader = OpenDataReader())
             {
                 while (reader.Read())
                 {
@@ -68,11 +57,7 @@ namespace store_stock_tracker.src.Cli.Utils
 
         public static void GetPrice()
         {
-            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
-            var command = sqlite.CreateCommand();
-            command.CommandText = @"SELECT * FROM Products";
-            sqlite.Open();
-            using (var reader = command.ExecuteReader())
+            using (var reader = OpenDataReader())
             {
                 while (reader.Read())
                 {
@@ -85,12 +70,8 @@ namespace store_stock_tracker.src.Cli.Utils
         }
         public static void GetRestockWarning()
         {
-            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
-            var command = sqlite.CreateCommand();
-            command.CommandText = @"SELECT * FROM Products";
-            sqlite.Open();
             Console.WriteLine("Showing Items With Low Stock...");
-            using (var reader = command.ExecuteReader())
+            using (var reader = OpenDataReader())
             {
                 while (reader.Read())
                 {
@@ -105,13 +86,8 @@ namespace store_stock_tracker.src.Cli.Utils
         }
         public static void GetRestockThreshold()
         {
-            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
-            var command = sqlite.CreateCommand();
-            command.CommandText = @"SELECT * FROM Products";
-            sqlite.Open();
-
             Console.WriteLine("Current Restock Warnings...");
-            using (var reader = command.ExecuteReader())
+            using (SQLiteDataReader reader = OpenDataReader())
             {
                 while (reader.Read())
                 {
@@ -121,6 +97,15 @@ namespace store_stock_tracker.src.Cli.Utils
                     Console.WriteLine($"{SKU}: {Name} - {Restock} \n");
                 }
             }
+        }
+
+        public static SQLiteDataReader OpenDataReader()
+        {
+            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
+            var command = sqlite.CreateCommand();
+            command.CommandText = @"SELECT * FROM Products";
+            sqlite.Open();
+            return command.ExecuteReader();
         }
     }
 }

@@ -17,14 +17,15 @@ namespace store_stock_tracker.src.Cli.Utils
             sqlite.Open();
             using (var reader = command.ExecuteReader())
             {
-                Console.WriteLine("Name            |SKU             |Quantity |   Price");
+                Console.WriteLine("Name            |SKU             |Quantity |   Price | Restock Threshold");
                 while (reader.Read())
                 {
                     string Name = reader.GetString(1);
                     string SKU = reader.GetString(2);
                     int Quantity = reader.GetInt32(3);
                     decimal Price = reader.GetDecimal(4);
-                    Console.WriteLine($"{Name, -15} |{SKU, -15} |{Quantity, 8} | {Price, 7}");
+                    int Restock = reader.GetInt32(5);
+                    Console.WriteLine($"{Name,-15} |{SKU,-15} |{Quantity,8} | {Price,7} | {Restock,17}");
                 }
             }
 

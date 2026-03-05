@@ -15,7 +15,7 @@ public static class Controller
                 //Console.WriteLine("This is running");
 
                 // Shows menu options
-                string[] options = new[] {"Show Full Table", "Update Stock", "Update Prices", "View Items Needing Restock", "Check Current Restock Thresholds", "Update Restock Thresholds", "Exit Program" };
+                string[] options = new[] {"Show Full Table", "Search Inventory", "Update Stock", "Update Prices", "View Items Needing Restock", "Check Current Restock Thresholds", "Update Restock Thresholds", "Exit Program" };
                 int x = 0; // Start at the first option in array
                 Console.WriteLine("Please select from the following by number: ");
                 while (x < options.Length) // Loop until every option displayed
@@ -33,30 +33,33 @@ public static class Controller
                         DataClass.GetFullTable();
                         break;
                     case "2":
+                        SKUSearcher.SearchSKU();
+                        break;
+                    case "3":
                         Console.WriteLine("Showing Current Stock...");
                         Console.WriteLine("Please select from the following SKU: ");
                         StockUpdater.StockUpdate();
                         break;
-                    case "3":
+                    case "4":
                         Console.WriteLine("Showing Prices...");
                         Console.WriteLine("Please select from the following SKU: ");
                         PriceUpdater.PriceUpdate();
                         Thread.Sleep(250);
                         break;
-                    case "4":
+                    case "5":
                         Console.WriteLine("Showing Items With Low Stock...");
                         DataClass.GetRestockWarning();
                         break;
-                    case "5":
+                    case "6":
                         Console.WriteLine("Current Restock Warnings...");
                         DataClass.GetRestockThreshold();
                         break;
-                    case "6":
+                    case "7":
                         Console.WriteLine("Showing Restock Thresholds...");
                         Console.WriteLine("Please select from the following SKU: ");
                         RestockUpdater.RestockUpdate();
                         break;
-                    case "7":
+                    case "8":
                         Console.WriteLine("Goodbye");
                         return 0;
                     default:

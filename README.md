@@ -13,3 +13,8 @@ In more detailed form:
 	- Automatic ordering of stock when low dependant on trends
 	- Store analytics, like determining slow-moving products, products that expire more than sell, and buyer trends
 	- Web dashboard for remote and mobile devices
+
++Known Bugs/Plans
+	- No input verification
+	- Inconsistent code
+	- Make architecture cleaner

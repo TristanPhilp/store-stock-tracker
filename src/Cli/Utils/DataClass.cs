@@ -9,7 +9,26 @@ namespace store_stock_tracker.src.Cli.Utils
 {
     internal class DataClass
     {
+        public static void GetFullTable()
+        {
+            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
+            var command = sqlite.CreateCommand();
+            command.CommandText = @"SELECT * FROM Products";
+            sqlite.Open();
+            using (var reader = command.ExecuteReader())
+            {
+                Console.WriteLine("Name            |SKU             |Quantity |   Price");
+                while (reader.Read())
+                {
+                    string Name = reader.GetString(1);
+                    string SKU = reader.GetString(2);
+                    int Quantity = reader.GetInt32(3);
+                    decimal Price = reader.GetDecimal(4);
+                    Console.WriteLine($"{Name, -15} |{SKU, -15} |{Quantity, 8} | {Price, 7}");
+                }
+            }
 
+        }
         public static void GetSKU()
         {
             SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");

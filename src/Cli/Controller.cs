@@ -15,7 +15,7 @@ public static class Controller
                 //Console.WriteLine("This is running");
 
                 // Shows menu options
-                string[] options = new[] { "List all SKU codes", "Check Current Stock", "Check Current Prices", "Update Stock", "Update Prices", "View Items Needing Restock", "Check Current Restock Thresholds", "Update Restock Thresholds", "Exit Program" };
+                string[] options = new[] {"Show Full Table", "Update Stock", "Update Prices", "View Items Needing Restock", "Check Current Restock Thresholds", "Update Restock Thresholds", "Exit Program" };
                 int x = 0; // Start at the first option in array
                 Console.WriteLine("Please select from the following by number: ");
                 while (x < options.Length) // Loop until every option displayed
@@ -26,17 +26,24 @@ public static class Controller
                 Console.WriteLine();
                 string choice = Console.ReadLine();
                 // user chose to view current stock
-                if (choice == "1")
-                {
-                    Console.WriteLine("Showing Current Stock...");
-                    DataClass.GetSKU();
-                    Thread.Sleep(250);
+
+                switch (choice) {
+                    case "1":
+                        Console.WriteLine("Showing Table");
+                        DataClass.GetFullTable();
+                        Thread.Sleep(250);
+                        break;
+                    case "2":
+                        Console.WriteLine("Showing Current Stock...");
+                        DataClass.GetStock();
+                        Thread.Sleep(250);
+                        break;
+
                 }
+                if (true) { }
                 else if (choice == "2")
                 {
-                    Console.WriteLine("Showing Current Stock...");
-                    DataClass.GetStock();
-                    Thread.Sleep(250);
+                    
                 }
                 // user chose to view current stock
                 else if (choice == "3")

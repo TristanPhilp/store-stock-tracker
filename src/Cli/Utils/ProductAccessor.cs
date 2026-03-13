@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 namespace store_stock_tracker.src.Cli.Utils
 {
+    //Class for managing products
     public class Product()
     {
         public int id { get; set; }
@@ -27,6 +28,8 @@ namespace store_stock_tracker.src.Cli.Utils
 
         public string supplier { get; set; }
     }
+
+    //Singleton accessor class to control flow in and out of the database
     internal class ProductAccessor
     {
         private static SQLiteConnection connection;
@@ -39,6 +42,8 @@ namespace store_stock_tracker.src.Cli.Utils
             connection.Open();
         }
 
+
+        //If there's no instance ready, create one. Otherwise, return the managed instance.
         public static ProductAccessor GetInstance()
         {
             if (instance == null)
@@ -50,8 +55,12 @@ namespace store_stock_tracker.src.Cli.Utils
             return instance;
         }
 
+        //When queried, creates a list of products and returns it.
         public List<Product> Query(string query)
         {
+            //TODO
+            //Make sql validation Method to ensure that no bad queries make it to the database.
+
             List<Product> products = new List<Product>();
             var command = connection.CreateCommand();
             command.CommandText = query;

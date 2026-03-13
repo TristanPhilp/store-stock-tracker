@@ -18,3 +18,6 @@ In more detailed form:
 	- No input verification
 	- Inconsistent code
 	- Make architecture cleaner
+
+
+	-Look up other inventory managers

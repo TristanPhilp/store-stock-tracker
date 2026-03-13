@@ -15,13 +15,20 @@ public static class Controller
                 //Console.WriteLine("This is running");
 
                 // Shows menu options
-                string[] options = new[] {"Show Full Table", "Search Inventory", "Update Stock", "Update Prices", "View Items Needing Restock", "Check Current Restock Thresholds", "Update Restock Thresholds", "Exit Program" };
-                int x = 0; // Start at the first option in array
+                string[] options = new[] {
+                    "Show Full Table", 
+                    "Search Inventory", 
+                    "Update Stock", 
+                    "Update Prices", 
+                    "View Items Needing Restock", 
+                    "Check Current Restock Thresholds", 
+                    "Update Restock Thresholds", 
+                    "Exit Program" };
+
                 Console.WriteLine("Please select from the following by number: ");
-                while (x < options.Length) // Loop until every option displayed
+                for (int i = 0; i < options.Length; i++) // Loop until every option displayed
                 {
-                    Console.WriteLine((x + 1) + ". " + options[x]);
-                    x += 1; // advance loop
+                    Console.WriteLine((i + 1) + ". " + options[i]);
                 }
                 Console.WriteLine();
                 string choice = Console.ReadLine();
@@ -29,10 +36,10 @@ public static class Controller
 
                 switch (choice) {
                     case "1":
-                        DataClass.GetFullTable();
+                        Searcher.GetFullInventory();
                         break;
                     case "2":
-                        SKUSearcher.SearchSKU();
+                        Searcher.InitiateSearch();
                         break;
                     case "3":
                         StockUpdater.StockUpdate();
@@ -41,10 +48,10 @@ public static class Controller
                         PriceUpdater.PriceUpdate();
                         break;
                     case "5":
-                        DataClass.GetRestockWarning();
+                        //DataReader.GetRestockWarning();
                         break;
                     case "6":
-                        DataClass.GetRestockThreshold();
+                        //DataReader.GetRestockThreshold();
                         break;
                     case "7":
                         RestockUpdater.RestockUpdate();

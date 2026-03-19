@@ -42,12 +42,12 @@ namespace store_stock_tracker.src.Cli.Utils
         public static void GetFullInventory()
         {
             Console.WriteLine("Showing Table");
-            Console.WriteLine("Name            |SKU             |Quantity |   Price|       Supplier");
+            Console.WriteLine("Name                           |SKU             |Quantity |      Price|       Supplier");
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> inventory = instance.Query("SELECT * FROM Products");
             foreach (Product p in inventory)
             {
-                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7} | {p.supplier,15}");
+                Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7} | {p.supplier,15}");
             }
         }
 
@@ -61,10 +61,10 @@ namespace store_stock_tracker.src.Cli.Utils
                 return;
             }
 
-            Console.WriteLine("Name            |SKU             |Quantity |   Price");
+            Console.WriteLine("Name                           |SKU             |Quantity |   Price");
             foreach (Product p in results)
             {
-                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
+                Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
             }
         }
 
@@ -78,10 +78,10 @@ namespace store_stock_tracker.src.Cli.Utils
                 return;
             }
 
-            Console.WriteLine("Name            |SKU             |Quantity |   Price");
+            Console.WriteLine("Name                           |SKU             |Quantity |   Price");
             foreach (Product p in results)
             {
-                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
+                Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
             }
         }
     }

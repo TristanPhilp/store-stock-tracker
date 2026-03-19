@@ -18,14 +18,13 @@ public static class Controller
                 string[] options = new[] {
                     "Show Full Table", 
                     "Search Inventory", 
-                    "Update Stock", 
+                    "Process Sale",
+                    "Process Restock",
                     "Update Prices", 
-                    "View Items Needing Restock", 
-                    "Check Current Restock Thresholds", 
                     "Update Restock Thresholds", 
                     "Exit Program" };
-
-                Console.WriteLine("Please select from the following by number: ");
+                RestockWarning.GetRestockWarning();
+                Console.WriteLine("\nPlease select from the following by number: ");
                 for (int i = 0; i < options.Length; i++) // Loop until every option displayed
                 {
                     Console.WriteLine((i + 1) + ". " + options[i]);
@@ -42,21 +41,18 @@ public static class Controller
                         Searcher.InitiateSearch();
                         break;
                     case "3":
-                        StockUpdater.StockUpdate();
+                        StockUpdater.StockUpdate(choice);
                         break;
                     case "4":
-                        PriceUpdater.PriceUpdate();
+                        StockUpdater.StockUpdate(choice);
                         break;
                     case "5":
-                        //DataReader.GetRestockWarning();
+                        PriceUpdater.PriceUpdate();
                         break;
                     case "6":
-                        //DataReader.GetRestockThreshold();
-                        break;
-                    case "7":
                         RestockUpdater.RestockUpdate();
                         break;
-                    case "8":
+                    case "7":
                         Console.WriteLine("Goodbye");
                         return 0;
                     default:

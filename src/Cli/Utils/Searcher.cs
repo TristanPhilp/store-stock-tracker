@@ -1,10 +1,12 @@
-﻿namespace store_stock_tracker.src.Cli.Utils
+﻿using System.Globalization;
+
+namespace store_stock_tracker.src.Cli.Utils
 {
     public class Searcher
     {
         public static void InitiateSearch()
         {
-            string[] options = new string[] { "Name", "SKU", "Restock Warning", "Back"};
+            string[] options = new string[] { "Name", "SKU", "Back"};
             Console.WriteLine("Search by:?");
             for (int i = 0; i < options.Length; i++) // Loop until every option displayed
             {
@@ -17,7 +19,8 @@
                 case "Name":
                 case "1":
                     Console.WriteLine("Input product name");
-                    string name = Console.ReadLine();
+                    TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
+                    string name = myTI.ToTitleCase(Console.ReadLine());
                     SearchByName(name);
                     break;
                 case "SKU":
@@ -28,10 +31,6 @@
                     break;
                 case "Restock Warning":
                 case "3":
-                    SearchByRestockWarning();
-                    break;
-                case "Back":
-                case "4":
                     return;
                 default:
                     Console.WriteLine("Selection was invalid. Enter the number associated with your selection.");
@@ -83,18 +82,6 @@
             foreach (Product p in results)
             {
                 Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
-            }
-        }
-
-        public static void SearchByRestockWarning()
-        {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.Query($"SELECT * FROM Products WHERE Quantity <= RestockThreshold");
-
-            Console.WriteLine("Name            |SKU             |Quantity |   Price| Restock Threshold");
-            foreach (Product p in results)
-            {
-                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7}| {p.restockThreshold, 17}");
             }
         }
     }

@@ -7,6 +7,7 @@ using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Threading;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using store_stock_tracker.src.Cli.Utils;
 
 
 namespace store_stock_tracker.src.Cli.Utils
@@ -58,29 +59,30 @@ namespace store_stock_tracker.src.Cli.Utils
         //When queried, creates a list of products and returns it.
         public List<Product> Query(string query)
         {
-            //TODO
-            //Make sql validation Method to ensure that no bad queries make it to the database.
-
             List<Product> products = new List<Product>();
-            var command = connection.CreateCommand();
-            command.CommandText = query;
-            using (var reader = command.ExecuteReader())
+            if (Validators.IsValidSelectQuery(query, "Products"))
             {
-                while (reader.Read())
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                using (var reader = command.ExecuteReader())
                 {
-                    Product product = new Product();
-                    product.id = reader.GetInt32(0);
-                    product.name = reader.GetString(1);
-                    product.sku = reader.GetString(2);
-                    product.quantity = reader.GetInt32(3);
-                    product.price = reader.GetDecimal(4);
-                    product.restockThreshold = reader.GetInt32(5);
-                    product.supplier = reader.GetString(6);
+                    while (reader.Read())
+                    {
+                        Product product = new Product();
+                        product.id = reader.GetInt32(0);
+                        product.name = reader.GetString(1);
+                        product.sku = reader.GetString(2);
+                        product.quantity = reader.GetInt32(3);
+                        product.price = reader.GetDecimal(4);
+                        product.restockThreshold = reader.GetInt32(5);
+                        product.supplier = reader.GetString(6);
 
-                    products.Add(product);
+                        products.Add(product);
+                    }
                 }
             }
             return products;
+            
         }
 
         

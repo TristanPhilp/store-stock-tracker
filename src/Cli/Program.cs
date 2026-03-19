@@ -1,9 +1,11 @@
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using store_stock_tracker.Data;
+using store_stock_tracker.src.Cli.Utils;
 //imports the Entity Framework Core and data context
 
-public static partial class Program
+public partial class Program : ControllerBase
 {
     public static int Main(string[] args)
     {
@@ -27,9 +29,15 @@ public static partial class Program
             app.UseSwaggerUI();
         }
 
-        /*app.MapControllers();
+        app.MapControllers();
         app.MapGet("/", () => "Hello World!");
-        app.Run();*/
+        ProductAccessor instance = ProductAccessor.GetInstance();
+
+        List<Product> products = instance.Query("SELECT * FROM Products");
+
+        app.MapGet("/products", () =>  products);
+        app.Run();
+
 
         return Controller.RunCli();
     }

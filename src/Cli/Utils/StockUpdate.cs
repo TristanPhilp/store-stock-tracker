@@ -9,53 +9,35 @@ namespace store_stock_tracker.src.Cli.Utils
 {
     internal class StockUpdater
     {
-        public static void StockUpdate() 
+        public static void StockUpdate(string choice) 
         {
-            string Name;
-            string SKU;
-            int Quantity = 0;
-            SQLiteConnection sqlite = new SQLiteConnection("Data Source=inventory.db");
-            var command = sqlite.CreateCommand();
-            command.CommandText = @"SELECT * FROM Products";
+            int sign = 0;
 
-
-            Console.WriteLine("Showing Current Stock...");
-            Console.WriteLine("Please select from the following SKU: ");
-            sqlite.Open();
-            using (var reader = command.ExecuteReader())
+            if (Convert.ToInt32(choice) == 3)
             {
-                while (reader.Read())
-                {
-                    Name = reader.GetString(1);
-                    SKU = reader.GetString(2);
-                    Quantity = reader.GetInt32(3);
-                    Console.WriteLine($"{SKU}: {Name} - {Quantity}\n");
-                }
+                sign = -1;
             }
-            string SKUChoice = Console.ReadLine();
-            command.CommandText = string.Format("SELECT * FROM Products WHERE Sku = '{0}'", SKUChoice);
-            using (var reader = command.ExecuteReader())
+            else if (Convert.ToInt32(choice) == 4)
             {
-                while (reader.Read())
-                {
-                    Quantity = reader.GetInt32(3);
-                }
-            }                
-            Console.WriteLine($"Update Stock by?");
-            int QuantityChoice = Convert.ToInt32(Console.ReadLine());
-            int NewQuantity = Quantity + QuantityChoice;
-            command.CommandText = string.Format("UPDATE Products SET Quantity = '{0}' WHERE Sku = '{1}'", NewQuantity, SKUChoice);
-            command.ExecuteNonQuery();
-            command.CommandText = string.Format("SELECT * FROM Products WHERE Sku = '{0}'", SKUChoice);
-            using (var reader = command.ExecuteReader())
+                sign = 1;
+            }
+            int NewQuantity = 0;
+            Console.WriteLine("Please search by SKU: ");
+            string SKUChoice = Console.ReadLine().ToUpper();
+            ProductAccessor instance = ProductAccessor.GetInstance();
+            List<Product> inventory = instance.Query($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
+            foreach (Product p in inventory)
             {
-                while (reader.Read())
-                {
-                    Name = reader.GetString(1);
-                    SKU = reader.GetString(2);
-                    Quantity = reader.GetInt32(3);
-                    Console.WriteLine($"\nNew Stock of {Name} - {Quantity}\n");
-                }
+                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7} | {p.supplier,15}");
+                Console.WriteLine($"Update Stock by?");
+                int QuantityChoice = Convert.ToInt32(Console.ReadLine());
+                NewQuantity = p.quantity + (QuantityChoice * sign);
+            }   
+            inventory = instance.Query(string.Format("UPDATE Products SET Quantity = '{0}' WHERE Sku = '{1}'", NewQuantity, SKUChoice));
+            inventory = instance.Query($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
+            foreach (Product p in inventory)
+            {
+                Console.WriteLine($"\nNew Stock of {p.name} - {p.quantity}\n");
             }
            
         }

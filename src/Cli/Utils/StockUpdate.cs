@@ -28,7 +28,7 @@ namespace store_stock_tracker.src.Cli.Utils
             List<Product> inventory = instance.Query($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
             foreach (Product p in inventory)
             {
-                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7} | {p.supplier,15}");
+                Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7} | {p.supplier,15}");
                 Console.WriteLine($"Update Stock by?");
                 int QuantityChoice = Convert.ToInt32(Console.ReadLine());
                 NewQuantity = p.quantity + (QuantityChoice * sign);

@@ -17,10 +17,10 @@ namespace store_stock_tracker.src.Cli.Utils
             string SKUChoice = Console.ReadLine().ToUpper();
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> inventory = instance.Query($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
-            Console.WriteLine("Name            |SKU             |Restock Threshold");
+            Console.WriteLine("Name                           |SKU             |Restock Threshold");
             foreach (Product p in inventory)
             {
-                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.restockThreshold,15}");
+                Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.restockThreshold,15}");
             }
             Console.WriteLine($"Change Restock Threshold to: ");
             RestockChoice = Convert.ToInt32(Console.ReadLine());

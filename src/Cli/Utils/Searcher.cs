@@ -61,10 +61,10 @@ namespace store_stock_tracker.src.Cli.Utils
                 return;
             }
 
-            Console.WriteLine("Name            |SKU             |Quantity |   Price");
+            Console.WriteLine("Name                           |SKU             |Quantity |   Price");
             foreach (Product p in results)
             {
-                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
+                Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
             }
         }
 
@@ -78,10 +78,10 @@ namespace store_stock_tracker.src.Cli.Utils
                 return;
             }
 
-            Console.WriteLine("Name            |SKU             |Quantity |   Price");
+            Console.WriteLine("Name                           |SKU             |Quantity |   Price");
             foreach (Product p in results)
             {
-                Console.WriteLine($"{p.name,-15} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
+                Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
             }
         }
     }

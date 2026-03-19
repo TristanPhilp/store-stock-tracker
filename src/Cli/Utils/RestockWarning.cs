@@ -11,7 +11,7 @@ namespace store_stock_tracker.src.Cli.Utils
             Console.WriteLine("Items With Low Stock: ");
             Console.WriteLine("Name                           |SKU             |Quantity |   Price|       Supplier");
             ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> inventory = instance.Query("SELECT * FROM Products");
+            List<Product> inventory = instance.SelectQuery("SELECT * FROM Products");
             foreach (Product p in inventory)
             {
                 if (p.quantity <= p.restockThreshold)

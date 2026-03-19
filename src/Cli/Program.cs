@@ -33,7 +33,7 @@ public partial class Program : ControllerBase
         app.MapGet("/", () => "Hello World!");
         ProductAccessor instance = ProductAccessor.GetInstance();
 
-        List<Product> products = instance.Query("SELECT * FROM Products");
+        List<Product> products = instance.SelectQuery("SELECT * FROM Products");
 
         app.MapGet("/products", () =>  products);
         app.Run();

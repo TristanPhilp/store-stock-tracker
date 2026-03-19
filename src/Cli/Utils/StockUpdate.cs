@@ -25,7 +25,7 @@ namespace store_stock_tracker.src.Cli.Utils
             Console.WriteLine("Please search by SKU: ");
             string SKUChoice = Console.ReadLine().ToUpper();
             ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> inventory = instance.Query($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
+            List<Product> inventory = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
             foreach (Product p in inventory)
             {
                 Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7} | {p.supplier,15}");
@@ -33,8 +33,8 @@ namespace store_stock_tracker.src.Cli.Utils
                 int QuantityChoice = Convert.ToInt32(Console.ReadLine());
                 NewQuantity = p.quantity + (QuantityChoice * sign);
             }   
-            inventory = instance.Query(string.Format("UPDATE Products SET Quantity = '{0}' WHERE Sku = '{1}'", NewQuantity, SKUChoice));
-            inventory = instance.Query($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
+            inventory = instance.SelectQuery(string.Format("UPDATE Products SET Quantity = '{0}' WHERE Sku = '{1}'", NewQuantity, SKUChoice));
+            inventory = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
             foreach (Product p in inventory)
             {
                 Console.WriteLine($"\nNew Stock of {p.name} - {p.quantity}\n");

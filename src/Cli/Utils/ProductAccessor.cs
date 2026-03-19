@@ -57,7 +57,7 @@ namespace store_stock_tracker.src.Cli.Utils
         }
 
         //When queried, creates a list of products and returns it.
-        public List<Product> Query(string query)
+        public List<Product> SelectQuery(string query)
         {
             List<Product> products = new List<Product>();
             if (Validators.IsValidSelectQuery(query, "Products"))
@@ -83,6 +83,19 @@ namespace store_stock_tracker.src.Cli.Utils
             }
             return products;
             
+        }
+
+        public int UpdateQuery(string query)
+        {
+            if (Validators.IsValidUpdateQuery(query, "Products"))
+            {
+                var command = connection.CreateCommand();
+                command.CommandText = query;
+                command.ExecuteReader();
+                return 0;
+            }
+            else { return 2; }
+            return 1;
         }
 
         

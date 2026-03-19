@@ -45,5 +45,47 @@
 
             return true;
         }
+
+        /// <summary>
+        /// Validates that a query is a properly formatted UPDATE statement
+        /// targeting only the specified table.
+        /// </summary>
+        public static bool IsValidUpdateQuery(string query, string allowedTable)
+        {
+            if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(allowedTable))
+                return false;
+
+            // Normalize whitespace
+            string normalized = query.Trim();
+
+            // Reject multiple statements (basic injection prevention)
+            if (normalized.Contains(";") && !normalized.EndsWith(";"))
+                return false;
+
+            // Remove trailing semicolon if present
+            normalized = normalized.TrimEnd(';').Trim();
+
+            // Regex pattern:
+            // - Must start with UPDATE <allowedTable>
+            // - Must contain SET clause
+            // - Optional WHERE clause
+            string pattern = $@"^UPDATE\s+{Regex.Escape(allowedTable)}\s+SET\s+.+(\s+WHERE\s+.+)?$";
+
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+            if (!regex.IsMatch(normalized))
+                return false;
+
+            // Disallow other SQL operations
+            string[] forbidden = { "SELECT", "INSERT", "DELETE", "DROP", "ALTER", "TRUNCATE", "ATTACH", "DETACH" };
+
+            foreach (var keyword in forbidden)
+            {
+                if (Regex.IsMatch(normalized, $@"\b{keyword}\b", RegexOptions.IgnoreCase))
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

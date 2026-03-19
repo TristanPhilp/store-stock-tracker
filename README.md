@@ -18,6 +18,9 @@ In more detailed form:
 	- No input verification
 	- Inconsistent code
 	- Make architecture cleaner
+	- Error handling
+	- Unit Testing
+	- search function link to alternate version commands
 
 
 	-Look up other inventory managers

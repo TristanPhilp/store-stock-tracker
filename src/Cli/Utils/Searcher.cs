@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using Microsoft.Extensions.Options;
+using System.Globalization;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace store_stock_tracker.src.Cli.Utils
 {
@@ -55,7 +57,7 @@ namespace store_stock_tracker.src.Cli.Utils
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
-            if(results.Count == 0)
+            if (results.Count == 0)
             {
                 Console.WriteLine("No product found. Please try again.");
                 return;
@@ -65,6 +67,38 @@ namespace store_stock_tracker.src.Cli.Utils
             foreach (Product p in results)
             {
                 Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
+                string[] options = new string[] { "Process Order", "Process Restock", "Update Price", "Update Restock Threshold", "Back" };
+                Console.WriteLine("Edit this Item? Select by number: ");
+                for (int i = 0; i < options.Length; i++) // Loop until every option displayed
+                {
+                    Console.WriteLine((i + 1) + ". " + options[i]);
+                }
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "Process Order":
+                    case "1":
+                        StockUpdater.StockUpdate(choice);
+                        break;
+                    case "Process Restock":
+                    case "2":
+                        StockUpdater.StockUpdate(choice);
+                        break;
+                    case "Update Price":
+                    case "3":
+                        PriceUpdater.PriceUpdate();
+                        break;
+                    case "Update Restock Threshold":
+                    case "4":
+                        RestockUpdater.RestockUpdate();
+                        break;
+                    case "Back":
+                    case "5":
+                        break;
+                    default:
+                        Console.WriteLine("Selection was invalid. Enter the number associated with your selection.");
+                        break;
+                }
             }
         }
 
@@ -82,6 +116,38 @@ namespace store_stock_tracker.src.Cli.Utils
             foreach (Product p in results)
             {
                 Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
+                string[] options = new string[] { "Process Order", "Process Restock", "Update Price", "Update Restock Threshold", "Back" };
+                Console.WriteLine("Edit this Item? Select by number: ");
+                for (int i = 0; i < options.Length; i++) // Loop until every option displayed
+                {
+                    Console.WriteLine((i + 1) + ". " + options[i]);
+                }
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "Process Order":
+                    case "1":
+                        StockUpdater.StockUpdate(choice);
+                        break;
+                    case "Process Restock":
+                    case "2":
+                        StockUpdater.StockUpdate(choice);
+                        break;
+                    case "Update Price":
+                    case "3":
+                        PriceUpdater.PriceUpdate();
+                        break;
+                    case "Update Restock Threshold":
+                    case "4":
+                        RestockUpdater.RestockUpdate();
+                        break;
+                    case "Back":
+                    case "5":
+                        break;
+                    default:
+                        Console.WriteLine("Selection was invalid. Enter the number associated with your selection.");
+                        break;
+                }
             }
         }
     }

@@ -13,11 +13,11 @@ namespace store_stock_tracker.src.Cli.Utils
         {
             int sign = 0;
 
-            if (Convert.ToInt32(choice) == 3)
+            if (Convert.ToInt32(choice) == 3 || Convert.ToInt32(choice) == 1)
             {
                 sign = -1;
             }
-            else if (Convert.ToInt32(choice) == 4)
+            else if (Convert.ToInt32(choice) == 4 || Convert.ToInt32(choice) == 2)
             {
                 sign = 1;
             }

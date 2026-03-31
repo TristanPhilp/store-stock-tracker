@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 
 namespace store_stock_tracker.src.Cli.Utils
 {
@@ -21,13 +22,13 @@ namespace store_stock_tracker.src.Cli.Utils
                     Console.WriteLine("Input product name");
                     TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
                     string name = myTI.ToTitleCase(Console.ReadLine());
-                    SearchByName(name);
+                    CLISearchByName(name);
                     break;
                 case "SKU":
                 case "2":
                     Console.WriteLine("Input product SKU");
                     string sku = Console.ReadLine();
-                    SearchBySKU(sku);
+                    CLISearchBySKU(sku);
                     break;
                 case "Restock Warning":
                 case "3":
@@ -39,7 +40,7 @@ namespace store_stock_tracker.src.Cli.Utils
         }
 
 
-        public static void GetFullInventory()
+        public static void CLIGetFullInventory()
         {
             Console.WriteLine("Showing Table");
             Console.WriteLine("Name                             |SKU             |Quantity |   Price|       Supplier");
@@ -51,7 +52,7 @@ namespace store_stock_tracker.src.Cli.Utils
             }
         }
 
-        public static void SearchByName(string name)
+        public static void CLISearchByName(string name)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
@@ -68,7 +69,7 @@ namespace store_stock_tracker.src.Cli.Utils
             }
         }
 
-        public static void SearchBySKU(string sku)
+        public static void CLISearchBySKU(string sku)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{sku.ToUpper()}'");
@@ -83,6 +84,42 @@ namespace store_stock_tracker.src.Cli.Utils
             {
                 Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
             }
+        }
+
+        public static string APISearchBySKU(string sku)
+        {
+            ProductAccessor instance = ProductAccessor.GetInstance();
+            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{sku.ToUpper()}'");
+            StringBuilder returnResults = new StringBuilder();
+            if (results.Count == 0)
+            {
+                return "No product found. Please try again.";
+            }
+
+            returnResults.Append("Name                           |SKU             |Quantity |   Price\n");
+            foreach (Product p in results)
+            {
+                returnResults.Append($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}\n");
+            }
+            return returnResults.ToString();
+        }
+
+        public static string APISearchByName(string name)
+        {
+            ProductAccessor instance = ProductAccessor.GetInstance();
+            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
+            StringBuilder returnResults = new StringBuilder();
+            if (results.Count == 0)
+            {
+                return "No product found. Please try again.";
+            }
+
+            returnResults.Append("Name                           |SKU             |Quantity |   Price\n");
+            foreach (Product p in results)
+            {
+                returnResults.Append($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}\n");
+            }
+            return returnResults.ToString();
         }
     }
 }

@@ -7,10 +7,9 @@ using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Threading;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using store_stock_tracker.src.Cli.Utils;
 
 
-namespace store_stock_tracker.src.Cli.Utils
+namespace store_stock_tracker.src.Tools
 {
     //Class for managing products
     public class Product()

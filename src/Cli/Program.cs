@@ -1,46 +1,27 @@
-
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using store_stock_tracker.Data;
-using store_stock_tracker.src.Cli.Utils;
-//imports the Entity Framework Core and data context
 
-public partial class Program : ControllerBase
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<InventoryDbContext>(options =>
+    options.UseSqlite(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
 {
-    public static int Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
-
-        //Configures SQLite
-        builder.Services.AddDbContext<InventoryDbContext>(options =>
-            options.UseSqlite(
-                builder.Configuration.GetConnectionString("DefaultConnection")));
-
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddControllers();
-
-        var app = builder.Build();
-
-        //If using a development environment, the app uses swagger for testing purposes
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.MapControllers();
-        app.MapGet("/", () => "Hello World!");
-        ProductAccessor instance = ProductAccessor.GetInstance();
-
-        List<Product> products = instance.SelectQuery("SELECT * FROM Products");
-
-        app.MapGet("/products", () =>  products);
-        app.Run();
-
-
-        return Controller.RunCli();
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
+app.UseAuthorization();
 
+app.MapControllers();
+
+app.Run();

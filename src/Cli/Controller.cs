@@ -35,7 +35,7 @@ public static class Controller
 
                 switch (choice) {
                     case "1":
-                        Searcher.GetFullInventory();
+                        Searcher.CLIGetFullInventory();
                         break;
                     case "2":
                         Searcher.InitiateSearch();

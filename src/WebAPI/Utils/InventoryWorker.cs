@@ -6,7 +6,7 @@ namespace store_stock_tracker.src.WebAPI.Utils
 {
     public class InventoryWorker
     {
-        public static Product SearchBySKU(string sku)
+        public Product SearchBySKU(string sku)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{sku.ToUpper()}'");
@@ -17,33 +17,54 @@ namespace store_stock_tracker.src.WebAPI.Utils
             else { return new Product(); }
         }
 
-        public static List<Product> SearchByName(string name)
+        public List<Product> SearchByName(string name)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name LIKE '%{name}%'");
             return results;
         }
-        public static List<Product> SearchBySupplier(string supplier)
+        public List<Product> SearchBySupplier(string supplier)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name LIKE '%{supplier}%'");
+            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Supplier LIKE '%{supplier}%'");
             return results;
         }
 
-        public static List<Product> RestockSearch()
+        public List<Product> RestockSearch()
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Quantity <= RestockThreshold");
             return results;
         }
 
-        public static int UpdateStock(int id, int amount)
+        public int UpdateStock(int id, int amount)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> products = instance.SelectQuery($"SELECT * FROM Products WHERE ID = '%{id}%'");
             if (products.Count == 1)
             {
                 if (instance.Query($"UPDATE Products SET Quantity = '{products[0].quantity + amount}' WHERE ID = '{id}'", "update") == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                return 2;
+            }
+        }
+
+        public int SetStock(int id, int amount)
+        {
+            ProductAccessor instance = ProductAccessor.GetInstance();
+            List<Product> products = instance.SelectQuery($"SELECT * FROM Products WHERE ID = '%{id}%'");
+            if (products.Count == 1)
+            {
+                if (instance.Query($"UPDATE Products SET Quantity = '{amount}' WHERE ID = '{id}'", "update") == 0)
                 {
                     return 0;
                 }

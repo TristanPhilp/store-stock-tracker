@@ -10,26 +10,26 @@ public class PublicAPIController : ControllerBase
     [HttpGet("SKU Search")]
     public IActionResult SKUSearch([FromQuery] string input)
     {
-        Product result = Searcher.SearchBySKU(input);
+        Product result = InventoryWorker.SearchBySKU(input);
         if (result.name == null) { return NotFound("Product not found"); }
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine("Name                             |Quantity |   Price");
+        builder.AppendLine("Name                           |Quantity |   Price");
         builder.AppendLine($"{result.name,-30} |{result.quantity,8} | {result.price,7}");
 
-        return Ok(builder.ToString);
+        return Ok(builder.ToString());
     }
 
     [HttpGet("Name Search")]
     public IActionResult NameSearch([FromQuery] string input)
     {
-        List<Product> results = Searcher.SearchByName(input);
+        List<Product> results = InventoryWorker.SearchByName(input);
 
         if (results.Count == 0)
         {
             return NotFound("No products found.");
         }
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine("Name                             |Quantity |   Price");
+        builder.AppendLine("Name                           |Quantity |   Price");
         foreach (Product result in results)
         {
             builder.AppendLine($"{result.name,-30} |{result.quantity,8} | {result.price,7}");

@@ -10,7 +10,7 @@ public class POSAPIController : ControllerBase
     [HttpGet("SKU Search")]
     public IActionResult SKUSearch([FromQuery] string input)
     {
-        Product result = Searcher.SearchBySKU(input);
+        Product result = InventoryWorker.SearchBySKU(input);
         return Ok(result);
     }
 

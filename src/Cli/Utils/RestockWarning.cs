@@ -1,7 +1,4 @@
 ﻿using store_stock_tracker.src.Tools;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace store_stock_tracker.src.Cli.Utils
 {

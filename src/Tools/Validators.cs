@@ -1,14 +1,15 @@
-﻿namespace store_stock_tracker.src.Cli.Utils
+﻿namespace store_stock_tracker.src.Tools
 {
+    using store_stock_tracker.src.Interfaces;
     using System.Text.RegularExpressions;
 
-    public static class Validators
+    public class SelectValidator : IValidationStrategy
     {
         /// <summary>
         /// Validates that a query is a properly formatted SELECT statement
         /// targeting only the specified table.
         /// </summary>
-        public static bool IsValidSelectQuery(string query, string allowedTable)
+        public bool Validate(string query, string allowedTable)
         {
             if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(allowedTable))
                 return false;
@@ -45,12 +46,15 @@
 
             return true;
         }
+    }
 
+    public class UpdateValidator : IValidationStrategy
+    {
         /// <summary>
         /// Validates that a query is a properly formatted UPDATE statement
         /// targeting only the specified table.
         /// </summary>
-        public static bool IsValidUpdateQuery(string query, string allowedTable)
+        public bool Validate(string query, string allowedTable)
         {
             if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(allowedTable))
                 return false;
@@ -78,6 +82,81 @@
 
             // Disallow other SQL operations
             string[] forbidden = { "SELECT", "INSERT", "DELETE", "DROP", "ALTER", "TRUNCATE", "ATTACH", "DETACH" };
+
+            foreach (var keyword in forbidden)
+            {
+                if (Regex.IsMatch(normalized, $@"\b{keyword}\b", RegexOptions.IgnoreCase))
+                    return false;
+            }
+
+            return true;
+        }
+    }
+    public class DeleteValidator : IValidationStrategy
+    {
+        public bool Validate(string query, string allowedTable)
+        {
+            if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(allowedTable))
+                return false;
+
+            string normalized = query.Trim();
+
+            // Reject multiple statements
+            if (normalized.Contains(";") && !normalized.EndsWith(";"))
+                return false;
+
+            normalized = normalized.TrimEnd(';').Trim();
+
+            // Require DELETE FROM <table> with optional WHERE
+            string pattern = $@"^DELETE\s+FROM\s+{Regex.Escape(allowedTable)}(\s+WHERE\s+.+)?$";
+
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+            if (!regex.IsMatch(normalized))
+                return false;
+
+            // Disallow other SQL operations
+            string[] forbidden = { "SELECT", "INSERT", "UPDATE", "DROP", "ALTER", "TRUNCATE", "ATTACH", "DETACH" };
+
+            foreach (var keyword in forbidden)
+            {
+                if (Regex.IsMatch(normalized, $@"\b{keyword}\b", RegexOptions.IgnoreCase))
+                    return false;
+            }
+
+            return true;
+        }
+    }
+    public class InsertValidator : IValidationStrategy
+    {
+        /// <summary>
+        /// Validates that a query is a properly formatted INSERT INTO statement
+        /// targeting only the specified table.
+        /// </summary>
+        public bool Validate(string query, string allowedTable)
+        {
+            if (string.IsNullOrWhiteSpace(query) || string.IsNullOrWhiteSpace(allowedTable))
+                return false;
+
+            string normalized = query.Trim();
+
+            // Reject multiple statements
+            if (normalized.Contains(";") && !normalized.EndsWith(";"))
+                return false;
+
+            normalized = normalized.TrimEnd(';').Trim();
+
+            // Require INSERT INTO <table> (...) VALUES (...)
+            // Column list is optional in SQLite, but recommended—this allows both forms
+            string pattern = $@"^INSERT\s+INTO\s+{Regex.Escape(allowedTable)}\s*(\(.+\))?\s+VALUES\s*\(.+\)$";
+
+            var regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+            if (!regex.IsMatch(normalized))
+                return false;
+
+            // Disallow other SQL operations
+            string[] forbidden = { "SELECT", "UPDATE", "DELETE", "DROP", "ALTER", "TRUNCATE", "ATTACH", "DETACH" };
 
             foreach (var keyword in forbidden)
             {

@@ -1,12 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Data;
+﻿using store_stock_tracker.src.Interfaces;
 using System.Data.SQLite;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Threading;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 
 namespace store_stock_tracker.src.Tools
@@ -24,7 +17,7 @@ namespace store_stock_tracker.src.Tools
 
         public decimal price { get; set; }
 
-        public int restockThreshold {  get; set; }
+        public int restockThreshold { get; set; }
 
         public string supplier { get; set; }
     }
@@ -50,7 +43,7 @@ namespace store_stock_tracker.src.Tools
             {
                 //TODO HERE
                 //Acquire a thread lock
-               instance = new ProductAccessor();
+                instance = new ProductAccessor();
             }
             return instance;
         }
@@ -58,8 +51,9 @@ namespace store_stock_tracker.src.Tools
         //When queried, creates a list of products and returns it.
         public List<Product> SelectQuery(string query)
         {
+            IValidationStrategy strategy = new SelectValidator();
             List<Product> products = new List<Product>();
-            if (Validators.IsValidSelectQuery(query, "Products"))
+            if (strategy.Validate(query, "Products"))
             {
                 var command = connection.CreateCommand();
                 command.CommandText = query;
@@ -81,93 +75,27 @@ namespace store_stock_tracker.src.Tools
                 }
             }
             return products;
-            
+
         }
 
-        public int UpdateQuery(string query)
+        public int Query(string query, string type)
         {
-            if (Validators.IsValidUpdateQuery(query, "Products"))
+            IValidationStrategy strategy =
+            type.ToLower() switch
+            {
+                "update" => new UpdateValidator(),
+                "delete" => new DeleteValidator(),
+                "insert" => new InsertValidator(),
+                _ => new SelectValidator()
+            };
+            if (strategy.Validate(query, "Products"))
             {
                 var command = connection.CreateCommand();
                 command.CommandText = query;
                 command.ExecuteReader();
                 return 0;
             }
-            else { return 2; }
-            return 1;
+            else { return 1; }
         }
-
-        
-        
-
-        /*
-        public static void GetSKU()
-        { 
-            using (var reader = OpenDataReader())
-            {
-                while (reader.Read())
-                {
-                    string Name = reader.GetString(1);
-                    string SKU = reader.GetString(2);
-                    Console.WriteLine($"{Name}: {SKU}\n");
-                }
-            }
-        }
-        
-        public static void GetStock()
-        {
-            using (var reader = OpenDataReader())
-            {
-                while (reader.Read())
-                {
-                    string Name = reader.GetString(1);
-                    string SKU = reader.GetString(2);
-                    int Quantity = reader.GetInt32(3);
-                    Console.WriteLine($"{SKU}: {Name} - {Quantity} \n");
-                }
-            }
-        }
-
-        public static void GetPrice()
-        {
-            while (reader.Read())
-            {
-                string Name = reader.GetString(1);
-                string SKU = reader.GetString(2);
-                decimal Price = reader.GetDecimal(4);
-                Console.WriteLine($"{SKU}: {Name} - {Price} \n");
-            }
-        }
-        public static void GetRestockWarning()
-        {
-            Console.WriteLine("Showing Items With Low Stock...");
-            using (var reader = OpenDataReader())
-            {
-                while (reader.Read())
-                {
-                    string Name = reader.GetString(1);
-                    string SKU = reader.GetString(2);
-                    int Quantity = reader.GetInt32(3);
-                    int Restock = reader.GetInt32(5);
-                    if (Quantity <= Restock)
-                        Console.WriteLine($"{SKU}: {Name} - {Quantity} Remaining \n");
-                }
-            }
-        }
-        public static void GetRestockThreshold()
-        {
-            Console.WriteLine("Current Restock Warnings...");
-            using (SQLiteDataReader reader = OpenDataReader())
-            {
-                while (reader.Read())
-                {
-                    string Name = reader.GetString(1);
-                    string SKU = reader.GetString(2);
-                    int Restock = reader.GetInt32(5);
-                    Console.WriteLine($"{SKU}: {Name} - {Restock} \n");
-                }
-            }
-        }
-        */
     }
 }

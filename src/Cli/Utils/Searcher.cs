@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using store_stock_tracker.src.Tools;
+using System.Globalization;
 using System.Text;
 
 namespace store_stock_tracker.src.Cli.Utils
@@ -7,7 +8,7 @@ namespace store_stock_tracker.src.Cli.Utils
     {
         public static void InitiateSearch()
         {
-            string[] options = new string[] { "Name", "SKU", "Back"};
+            string[] options = new string[] { "Name", "SKU", "Back" };
             Console.WriteLine("Search by:?");
             for (int i = 0; i < options.Length; i++) // Loop until every option displayed
             {
@@ -56,7 +57,7 @@ namespace store_stock_tracker.src.Cli.Utils
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
-            if(results.Count == 0)
+            if (results.Count == 0)
             {
                 Console.WriteLine("No product found. Please try again.");
                 return;
@@ -84,42 +85,6 @@ namespace store_stock_tracker.src.Cli.Utils
             {
                 Console.WriteLine($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}");
             }
-        }
-
-        public static string APISearchBySKU(string sku)
-        {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{sku.ToUpper()}'");
-            StringBuilder returnResults = new StringBuilder();
-            if (results.Count == 0)
-            {
-                return "No product found. Please try again.";
-            }
-
-            returnResults.Append("Name                           |SKU             |Quantity |   Price\n");
-            foreach (Product p in results)
-            {
-                returnResults.Append($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}\n");
-            }
-            return returnResults.ToString();
-        }
-
-        public static string APISearchByName(string name)
-        {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
-            StringBuilder returnResults = new StringBuilder();
-            if (results.Count == 0)
-            {
-                return "No product found. Please try again.";
-            }
-
-            returnResults.Append("Name                           |SKU             |Quantity |   Price\n");
-            foreach (Product p in results)
-            {
-                returnResults.Append($"{p.name,-30} |{p.sku,-15} |{p.quantity,8} | {p.price,7}\n");
-            }
-            return returnResults.ToString();
         }
     }
 }

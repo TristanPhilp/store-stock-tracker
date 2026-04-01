@@ -6,10 +6,10 @@ namespace store_stock_tracker.src.WebAPI.Utils
 {
     public class InventoryWorker
     {
-        public Product SearchBySKU(string sku)
+        public static Product SearchBySKU(string sku)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{sku.ToUpper()}'");
+            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE SKU LIKE '%{sku.ToUpper()}%'");
             if ( results.Count > 0 )
             {
                 return results[0];
@@ -17,27 +17,27 @@ namespace store_stock_tracker.src.WebAPI.Utils
             else { return new Product(); }
         }
 
-        public List<Product> SearchByName(string name)
+        public static List<Product> SearchByName(string name)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name LIKE '%{name}%'");
             return results;
         }
-        public List<Product> SearchBySupplier(string supplier)
+        public static List<Product> SearchBySupplier(string supplier)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Supplier LIKE '%{supplier}%'");
             return results;
         }
 
-        public List<Product> RestockSearch()
+        public static List<Product> RestockSearch()
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Quantity <= RestockThreshold");
             return results;
         }
 
-        public int UpdateStock(int id, int amount)
+        public static int UpdateStock(int id, int amount)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> products = instance.SelectQuery($"SELECT * FROM Products WHERE ID = '%{id}%'");
@@ -58,7 +58,7 @@ namespace store_stock_tracker.src.WebAPI.Utils
             }
         }
 
-        public int SetStock(int id, int amount)
+        public static int SetStock(int id, int amount)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> products = instance.SelectQuery($"SELECT * FROM Products WHERE ID = '%{id}%'");

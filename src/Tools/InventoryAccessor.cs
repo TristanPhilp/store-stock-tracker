@@ -35,7 +35,8 @@ namespace store_stock_tracker.src.Tools
             return instance;
         }
 
-        //When queried, creates a list of products and returns it.
+        //When queried with a select statement, creates a list of products and returns it.
+        //If given query is not validated as proper select query, returns an empty product
         public List<Product> SelectProducts(string query)
         {
             IValidationStrategy strategy = new SelectValidator();
@@ -64,7 +65,6 @@ namespace store_stock_tracker.src.Tools
             return products;
 
         }
-
         public int QueryProducts(string query, actionType type, int id)
         {
             IValidationStrategy strategy =

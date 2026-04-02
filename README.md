@@ -15,11 +15,13 @@ In more detailed form:
 	- Web dashboard for remote and mobile devices
 
 +Known Bugs/Plans
-	- No input verification
-	- Inconsistent code
-	- Make architecture cleaner
 	- Error handling
 	- Unit Testing
+
++Add API features
+	- Logins for different users and accounts
+	- tokenization
+	- rate limmiting
 
 
 	-Look up other inventory managers

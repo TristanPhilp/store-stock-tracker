@@ -6,10 +6,11 @@ namespace store_stock_tracker.src.WebAPI.Utils
 {
     public class InventoryWorker
     {
+        //Returns the first fuzzy match for a given SKU code
         public static Product SearchBySKU(string sku)
         {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Sku LIKE '%{sku.ToUpper()}%'");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> results = instance.SelectProducts($"SELECT * FROM Products WHERE Sku LIKE '%{sku.ToUpper()}%'");
             if ( results.Count > 0 )
             {
                 return results[0];
@@ -17,33 +18,35 @@ namespace store_stock_tracker.src.WebAPI.Utils
             else { return new Product(); }
         }
 
+        //Returns all fuzzy matches for a given string interpreted as a product name
         public static List<Product> SearchByName(string name)
         {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name LIKE '%{name}%'");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> results = instance.SelectProducts($"SELECT * FROM Products WHERE Name LIKE '%{name}%'");
             return results;
         }
+        
         public static List<Product> SearchBySupplier(string supplier)
         {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Supplier LIKE '%{supplier}%'");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> results = instance.SelectProducts($"SELECT * FROM Products WHERE Supplier LIKE '%{supplier}%'");
             return results;
         }
 
         public static List<Product> RestockSearch()
         {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Quantity <= RestockThreshold");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> results = instance.SelectProducts($"SELECT * FROM Products WHERE Quantity <= RestockThreshold");
             return results;
         }
 
         public static int UpdateStock(int id, int amount)
         {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> products = instance.SelectQuery($"SELECT * FROM Products WHERE ID = '%{id}%'");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> products = instance.SelectProducts($"SELECT * FROM Products WHERE ID = '{id}'");
             if (products.Count == 1)
             {
-                if (instance.Query($"UPDATE Products SET Quantity = '{products[0].Quantity + amount}' WHERE ID = '{id}'", "update") == 0)
+                if (instance.QueryProducts($"UPDATE Products SET Quantity = '{products[0].Quantity + amount}' WHERE ID = '{id}'", InventoryAccessor.actionType.updateQuantity, id) == 0)
                 {
                     return 0;
                 }
@@ -60,11 +63,11 @@ namespace store_stock_tracker.src.WebAPI.Utils
 
         public static int SetStock(int id, int amount)
         {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> products = instance.SelectQuery($"SELECT * FROM Products WHERE ID = '%{id}%'");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> products = instance.SelectProducts($"SELECT * FROM Products WHERE ID = '%{id}%'");
             if (products.Count == 1)
             {
-                if (instance.Query($"UPDATE Products SET Quantity = '{amount}' WHERE ID = '{id}'", "update") == 0)
+                if (instance.QueryProducts($"UPDATE Products SET Quantity = '{amount}' WHERE ID = '{id}'", InventoryAccessor.actionType.updateQuantity, id) == 0)
                 {
                     return 0;
                 }

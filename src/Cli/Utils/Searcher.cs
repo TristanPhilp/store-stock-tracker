@@ -6,6 +6,8 @@ namespace store_stock_tracker.src.Cli.Utils
 {
     public class Searcher
     {
+        /*
+         * Temporary disable of Cli
         public static void InitiateSearch()
         {
             string[] options = new string[] { "Name", "Sku", "Back" };
@@ -45,8 +47,8 @@ namespace store_stock_tracker.src.Cli.Utils
         {
             Console.WriteLine("Showing Table");
             Console.WriteLine("Name                             |Sku             |Quantity |   Price|       Supplier");
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> inventory = instance.SelectQuery("SELECT * FROM Products");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> inventory = instance.SelectProducts("SELECT * FROM Products");
             foreach (Product p in inventory)
             {
                 Console.WriteLine($"{p.Name,-32} |{p.Sku,-15} |{p.Quantity,8} | {p.Price,7} | {p.Supplier,15}");
@@ -55,8 +57,8 @@ namespace store_stock_tracker.src.Cli.Utils
 
         public static void CLISearchByName(string name)
         {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> results = instance.SelectProducts($"SELECT * FROM Products WHERE Name = '{name}'");
             if (results.Count == 0)
             {
                 Console.WriteLine("No product found. Please try again.");
@@ -105,8 +107,8 @@ namespace store_stock_tracker.src.Cli.Utils
 
         public static void CLISearchBySKU(string sku)
         {
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Sku = '{sku.ToUpper()}'");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> results = instance.SelectProducts($"SELECT * FROM Products WHERE Sku = '{sku.ToUpper()}'");
             if (results.Count == 0)
             {
                 Console.WriteLine("No product found. Please try again.");
@@ -151,5 +153,6 @@ namespace store_stock_tracker.src.Cli.Utils
                 }
             }
         }
+        */
     }
 }

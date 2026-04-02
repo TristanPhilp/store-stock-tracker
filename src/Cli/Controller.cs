@@ -1,6 +1,8 @@
 using store_stock_tracker.src.Cli.Utils;
 public static class Controller
 {
+    /*
+     * Temporary disable of Cli
     public static int RunCli()
     {
         while (true)
@@ -62,5 +64,7 @@ public static class Controller
                 Console.WriteLine(ex);
             }
         }
+
     }
+    */
 }

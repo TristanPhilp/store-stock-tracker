@@ -8,8 +8,8 @@ namespace store_stock_tracker.src.Cli.Utils
         public static string NameToSku(string name)
         {
             var Sku = "";
-            ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> inventory = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> inventory = instance.SelectProducts($"SELECT * FROM Products WHERE Name = '{name}'");
             foreach (Product p in inventory)
             {
                 Sku = p.Sku;

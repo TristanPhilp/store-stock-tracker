@@ -13,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+
+//Enables swagger endpoint testing if the project is running in a development environment
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

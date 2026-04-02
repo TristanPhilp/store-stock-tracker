@@ -58,6 +58,27 @@ namespace store_stock_tracker.src.WebAPI.Utils
             List<Product> products = instance.SelectProducts($"SELECT * FROM Products WHERE ID = '{id}'");
             if (products.Count == 1)
             {
+                if (instance.QueryProducts($"UPDATE Products SET Quantity = '{products[0].Quantity - amount}' WHERE ID = '{id}'", InventoryAccessor.actionType.updateQuantity, id) == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                return 2;
+            }
+        }
+
+        public static int ReStock(int id, int amount)
+        {
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> products = instance.SelectProducts($"SELECT * FROM Products WHERE ID = '{id}'");
+            if (products.Count == 1)
+            {
                 if (instance.QueryProducts($"UPDATE Products SET Quantity = '{products[0].Quantity + amount}' WHERE ID = '{id}'", InventoryAccessor.actionType.updateQuantity, id) == 0)
                 {
                     return 0;

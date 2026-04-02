@@ -18,10 +18,6 @@ public class POSAPIController : ControllerBase
     [HttpPost("Decrease Stock")]
     public IActionResult SKUDecreaseStock([FromQuery] int id, int amount)
     {
-        if (amount >= 0)
-        {
-            return Problem("Amount cannot be positive");
-        }
         switch (InventoryWorker.UpdateStock(id, amount))
         {
             case 0:

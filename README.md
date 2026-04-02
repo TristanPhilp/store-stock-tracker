@@ -20,7 +20,6 @@ In more detailed form:
 	- Make architecture cleaner
 	- Error handling
 	- Unit Testing
-	- search function link to alternate version commands
 
 
 	-Look up other inventory managers

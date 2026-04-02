@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using store_stock_tracker.src.Tools;
 using System.Globalization;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Text;
 
 namespace store_stock_tracker.src.Cli.Utils
 {
@@ -8,7 +8,7 @@ namespace store_stock_tracker.src.Cli.Utils
     {
         public static void InitiateSearch()
         {
-            string[] options = new string[] { "Name", "SKU", "Back"};
+            string[] options = new string[] { "Name", "SKU", "Back" };
             Console.WriteLine("Search by:?");
             for (int i = 0; i < options.Length; i++) // Loop until every option displayed
             {
@@ -23,13 +23,13 @@ namespace store_stock_tracker.src.Cli.Utils
                     Console.WriteLine("Input product name");
                     TextInfo myTI = new CultureInfo("en-US", false).TextInfo;
                     string name = myTI.ToTitleCase(Console.ReadLine());
-                    SearchByName(name);
+                    CLISearchByName(name);
                     break;
                 case "SKU":
                 case "2":
                     Console.WriteLine("Input product SKU");
                     string sku = Console.ReadLine();
-                    SearchBySKU(sku);
+                    CLISearchBySKU(sku);
                     break;
                 case "Restock Warning":
                 case "3":
@@ -41,7 +41,7 @@ namespace store_stock_tracker.src.Cli.Utils
         }
 
 
-        public static void GetFullInventory()
+        public static void CLIGetFullInventory()
         {
             Console.WriteLine("Showing Table");
             Console.WriteLine("Name                             |SKU             |Quantity |   Price|       Supplier");
@@ -53,7 +53,7 @@ namespace store_stock_tracker.src.Cli.Utils
             }
         }
 
-        public static void SearchByName(string name)
+        public static void CLISearchByName(string name)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
@@ -102,7 +102,7 @@ namespace store_stock_tracker.src.Cli.Utils
             }
         }
 
-        public static void SearchBySKU(string sku)
+        public static void CLISearchBySKU(string sku)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
             List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{sku.ToUpper()}'");

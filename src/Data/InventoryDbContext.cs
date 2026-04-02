@@ -13,7 +13,7 @@ namespace store_stock_tracker.Data
 
         public DbSet<Product> Products => Set<Product>();
 
-        
+
     }
 
 }

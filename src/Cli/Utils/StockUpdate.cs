@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Xml.Linq;
+﻿using store_stock_tracker.src.Tools;
 
 namespace store_stock_tracker.src.Cli.Utils
 {
     internal class StockUpdater
     {
-        public static void StockUpdate(string choice) 
+        public static void StockUpdate(string choice)
         {
             int sign = 0;
 
@@ -32,14 +27,14 @@ namespace store_stock_tracker.src.Cli.Utils
                 Console.WriteLine($"Update Stock by?");
                 int QuantityChoice = Convert.ToInt32(Console.ReadLine());
                 NewQuantity = p.quantity + (QuantityChoice * sign);
-            }   
-            inventory = instance.SelectQuery(string.Format("UPDATE Products SET Quantity = '{0}' WHERE Sku = '{1}'", NewQuantity, SKUChoice));
+            }
+            instance.SelectQuery(string.Format("UPDATE Products SET Quantity = '{0}' WHERE Sku = '{1}'", NewQuantity, SKUChoice));
             inventory = instance.SelectQuery($"SELECT * FROM Products WHERE SKU = '{SKUChoice}'");
             foreach (Product p in inventory)
             {
                 Console.WriteLine($"\nNew Stock of {p.name} - {p.quantity}\n");
             }
-           
+
         }
     }
 }

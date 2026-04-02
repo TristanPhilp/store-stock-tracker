@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Formats.Tar;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Xml.Linq;
+﻿using store_stock_tracker.src.Tools;
 
 namespace store_stock_tracker.src.Cli.Utils
 {
     internal class PriceUpdater
     {
-        public static void PriceUpdate() 
+        public static void PriceUpdate()
         {
             int PriceChoice = 0;
             Console.WriteLine("Please search by SKU: ");

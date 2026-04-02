@@ -1,9 +1,4 @@
-using Microsoft.Data.Sqlite;
 using store_stock_tracker.src.Cli.Utils;
-using System.Numerics;
-using System.Text;
-using System.Xml;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 public static class Controller
 {
     public static int RunCli()
@@ -16,12 +11,12 @@ public static class Controller
 
                 // Shows menu options
                 string[] options = new[] {
-                    "Show Full Table", 
-                    "Search Inventory", 
+                    "Show Full Table",
+                    "Search Inventory",
                     "Process Sale",
                     "Process Restock",
-                    "Update Prices", 
-                    "Update Restock Thresholds", 
+                    "Update Prices",
+                    "Update Restock Thresholds",
                     "Exit Program" };
                 RestockWarning.GetRestockWarning();
                 Console.WriteLine("\nPlease select from the following by number: ");
@@ -33,9 +28,10 @@ public static class Controller
                 string choice = Console.ReadLine();
                 // user chose to view current stock
 
-                switch (choice) {
+                switch (choice)
+                {
                     case "1":
-                        Searcher.GetFullInventory();
+                        Searcher.CLIGetFullInventory();
                         break;
                     case "2":
                         Searcher.InitiateSearch();
@@ -63,7 +59,7 @@ public static class Controller
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);  
+                Console.WriteLine(ex);
             }
         }
     }

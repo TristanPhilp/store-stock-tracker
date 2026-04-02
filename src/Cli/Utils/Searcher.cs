@@ -74,23 +74,24 @@ namespace store_stock_tracker.src.Cli.Utils
                     Console.WriteLine((i + 1) + ". " + options[i]);
                 }
                 string choice = Console.ReadLine();
+                var sku = ConvertNameToSku.NameToSku(p.name);
                 switch (choice)
                 {
                     case "Process Order":
                     case "1":
-                        StockUpdater.StockUpdate(choice);
+                        StockUpdateSkipSearcher.StockUpdate(choice, sku.ToUpper());
                         break;
                     case "Process Restock":
                     case "2":
-                        StockUpdater.StockUpdate(choice);
+                        StockUpdateSkipSearcher.StockUpdate(choice, sku.ToUpper());
                         break;
                     case "Update Price":
                     case "3":
-                        PriceUpdater.PriceUpdate();
+                        PriceUpdateSkipSearcher.PriceUpdate(sku.ToUpper());
                         break;
                     case "Update Restock Threshold":
                     case "4":
-                        RestockUpdater.RestockUpdate();
+                        RestockUpdateSkipSearcher.RestockUpdate(sku.ToUpper());
                         break;
                     case "Back":
                     case "5":
@@ -127,19 +128,19 @@ namespace store_stock_tracker.src.Cli.Utils
                 {
                     case "Process Order":
                     case "1":
-                        StockUpdater.StockUpdate(choice);
+                        StockUpdateSkipSearcher.StockUpdate(choice, sku.ToUpper());
                         break;
                     case "Process Restock":
                     case "2":
-                        StockUpdater.StockUpdate(choice);
+                        StockUpdateSkipSearcher.StockUpdate(choice, sku.ToUpper());
                         break;
                     case "Update Price":
                     case "3":
-                        PriceUpdater.PriceUpdate();
+                        PriceUpdateSkipSearcher.PriceUpdate(sku.ToUpper());
                         break;
                     case "Update Restock Threshold":
                     case "4":
-                        RestockUpdater.RestockUpdate();
+                        RestockUpdateSkipSearcher.RestockUpdate(sku.ToUpper());
                         break;
                     case "Back":
                     case "5":

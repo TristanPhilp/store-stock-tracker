@@ -2,19 +2,19 @@
 using store_stock_tracker.src.Tools;
 using store_stock_tracker.src.WebAPI.Utils;
 using System.Text;
-
+using store_stock_tracker.Models;
 [ApiController]
 [Route("api/products")]
 public class PublicAPIController : ControllerBase
 {
-    [HttpGet("SKU Search")]
+    [HttpGet("Sku Search")]
     public IActionResult SKUSearch([FromQuery] string input)
     {
         Product result = InventoryWorker.SearchBySKU(input);
-        if (result.name == null) { return NotFound("Product not found"); }
+        if (result.Name == null) { return NotFound("Product not found"); }
         StringBuilder builder = new StringBuilder();
         builder.AppendLine("Name                           |Quantity |   Price");
-        builder.AppendLine($"{result.name,-30} |{result.quantity,8} | {result.price,7}");
+        builder.AppendLine($"{result.Name,-30} |{result.Quantity,8} | {result.Price,7}");
 
         return Ok(builder.ToString());
     }
@@ -32,7 +32,7 @@ public class PublicAPIController : ControllerBase
         builder.AppendLine("Name                           |Quantity |   Price");
         foreach (Product result in results)
         {
-            builder.AppendLine($"{result.name,-30} |{result.quantity,8} | {result.price,7}");
+            builder.AppendLine($"{result.Name,-30} |{result.Quantity,8} | {result.Price,7}");
         }
         return Ok(builder.ToString());
     }

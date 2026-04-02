@@ -3,12 +3,12 @@ using store_stock_tracker.src.Tools;
 using store_stock_tracker.src.WebAPI.Utils;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
-
+using store_stock_tracker.Models;
 [ApiController]
 [Route("api/Point of Service")]
 public class POSAPIController : ControllerBase
     {
-    [HttpGet("SKU Search")]
+    [HttpGet("Sku Search")]
     public IActionResult SKUSearch([FromQuery] string input)
     {
         Product result = InventoryWorker.SearchBySKU(input);

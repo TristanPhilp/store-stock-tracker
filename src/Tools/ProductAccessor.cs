@@ -1,26 +1,10 @@
 ﻿using store_stock_tracker.src.Interfaces;
+using store_stock_tracker.Models;
 using System.Data.SQLite;
 
 
 namespace store_stock_tracker.src.Tools
 {
-    //Class for managing products
-    public class Product()
-    {
-        public int id { get; set; }
-
-        public string name { get; set; }
-
-        public string sku { get; set; }
-
-        public int quantity { get; set; }
-
-        public decimal price { get; set; }
-
-        public int restockThreshold { get; set; }
-
-        public string supplier { get; set; }
-    }
 
     //Singleton accessor class to control flow in and out of the database
     internal class ProductAccessor
@@ -62,13 +46,13 @@ namespace store_stock_tracker.src.Tools
                     while (reader.Read())
                     {
                         Product product = new Product();
-                        product.id = reader.GetInt32(0);
-                        product.name = reader.GetString(1);
-                        product.sku = reader.GetString(2);
-                        product.quantity = reader.GetInt32(3);
-                        product.price = reader.GetDecimal(4);
-                        product.restockThreshold = reader.GetInt32(5);
-                        product.supplier = reader.GetString(6);
+                        product.Id = reader.GetInt32(0);
+                        product.Name = reader.GetString(1);
+                        product.Sku = reader.GetString(2);
+                        product.Quantity = reader.GetInt32(3);
+                        product.Price = reader.GetDecimal(4);
+                        product.Restock_Threshold = reader.GetInt32(5);
+                        product.Supplier = reader.GetString(6);
 
                         products.Add(product);
                     }

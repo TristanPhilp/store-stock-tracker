@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using store_stock_tracker.Models;
+using System.Runtime.CompilerServices;
 
 
 namespace store_stock_tracker.Data
@@ -8,11 +10,11 @@ namespace store_stock_tracker.Data
     //Used by Entity Framework Core
     public class InventoryDbContext : DbContext
     {
+        
         public InventoryDbContext(DbContextOptions<InventoryDbContext> options)
             : base(options) { }
-
         public DbSet<Product> Products => Set<Product>();
-
+        public DbSet<ProductHistory> ProductHistories => Set<ProductHistory>();
 
     }
 

@@ -1,7 +1,7 @@
 ﻿using store_stock_tracker.src.Tools;
 using System.Text;
 using System.Xml.Linq;
-
+using store_stock_tracker.Models;
 namespace store_stock_tracker.src.WebAPI.Utils
 {
     public class InventoryWorker
@@ -9,7 +9,7 @@ namespace store_stock_tracker.src.WebAPI.Utils
         public static Product SearchBySKU(string sku)
         {
             ProductAccessor instance = ProductAccessor.GetInstance();
-            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE SKU LIKE '%{sku.ToUpper()}%'");
+            List<Product> results = instance.SelectQuery($"SELECT * FROM Products WHERE Sku LIKE '%{sku.ToUpper()}%'");
             if ( results.Count > 0 )
             {
                 return results[0];
@@ -43,7 +43,7 @@ namespace store_stock_tracker.src.WebAPI.Utils
             List<Product> products = instance.SelectQuery($"SELECT * FROM Products WHERE ID = '%{id}%'");
             if (products.Count == 1)
             {
-                if (instance.Query($"UPDATE Products SET Quantity = '{products[0].quantity + amount}' WHERE ID = '{id}'", "update") == 0)
+                if (instance.Query($"UPDATE Products SET Quantity = '{products[0].Quantity + amount}' WHERE ID = '{id}'", "update") == 0)
                 {
                     return 0;
                 }

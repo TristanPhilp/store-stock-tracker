@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using store_stock_tracker.Models;
 using store_stock_tracker.src.Tools;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
 
 namespace store_stock_tracker.src.Cli.Utils
 {
@@ -16,7 +12,7 @@ namespace store_stock_tracker.src.Cli.Utils
             List<Product> inventory = instance.SelectQuery($"SELECT * FROM Products WHERE Name = '{name}'");
             foreach (Product p in inventory)
             {
-                Sku = p.sku;
+                Sku = p.Sku;
             }
 
             return Sku;

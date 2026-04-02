@@ -65,6 +65,9 @@ namespace store_stock_tracker.src.Tools
             return products;
 
         }
+
+        //Queries are effectively the same, the only change being which validator to use
+        //Every time any non-select query runs, it also calls for an addition to the product history
         public int QueryProducts(string query, actionType type, int id)
         {
             IValidationStrategy strategy =
@@ -118,6 +121,10 @@ namespace store_stock_tracker.src.Tools
 
         }
 
+        //InsertHistory is only accesible from this class, and no queries can be passed to it.
+        //As such, it lacks a validator reference.
+        //Searches the Product table for the given id, then copies those values into the history table,
+        //along with the action that was performed and the new timestamp
         protected int InsertHistory(int id, actionType action)
         {
             var command = connection.CreateCommand();
@@ -150,7 +157,7 @@ namespace store_stock_tracker.src.Tools
             return 0;
         }
 
-
+        //actionType is locked in an enum to protect against typos
         public enum actionType
         {
             updatePrice,

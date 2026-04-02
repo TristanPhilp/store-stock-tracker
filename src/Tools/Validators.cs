@@ -3,6 +3,8 @@
     using store_stock_tracker.src.Interfaces;
     using System.Text.RegularExpressions;
 
+
+    //Validators are based on strategy pattern to reduce bloat
     public class SelectValidator : IValidationStrategy
     {
         /// <summary>

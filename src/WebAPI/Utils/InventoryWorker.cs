@@ -94,6 +94,27 @@ namespace store_stock_tracker.src.WebAPI.Utils
             }
         }
 
+        public static int UpdatePrice(int id, int amount)
+        {
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> products = instance.SelectProducts($"SELECT * FROM Products WHERE ID = '{id}'");
+            if (products.Count == 1)
+            {
+                if (instance.QueryProducts($"UPDATE Products SET Price = '{products[0].Price + amount}' WHERE ID = '{id}'", InventoryAccessor.actionType.updatePrice, id) == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                return 2;
+            }
+        }
+
         //Sets the current stock quantitiy of a product
         //Returns 0 if successful, 1 if unsuccessful, or 2 if there are no products with the given ID.
         public static int SetStock(int id, int amount)
@@ -103,6 +124,27 @@ namespace store_stock_tracker.src.WebAPI.Utils
             if (products.Count == 1)
             {
                 if (instance.QueryProducts($"UPDATE Products SET Quantity = '{amount}' WHERE ID = '{id}'", InventoryAccessor.actionType.updateQuantity, id) == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                return 2;
+            }
+        }
+
+        public static int SetReStock(int id, int amount)
+        {
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> products = instance.SelectProducts($"SELECT * FROM Products WHERE ID = '%{id}%'");
+            if (products.Count == 1)
+            {
+                if (instance.QueryProducts($"UPDATE Products SET Restock_Threshold = '{amount}' WHERE ID = '{id}'", InventoryAccessor.actionType.updateQuantity, id) == 0)
                 {
                     return 0;
                 }

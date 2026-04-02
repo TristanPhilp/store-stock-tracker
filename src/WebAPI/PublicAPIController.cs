@@ -13,8 +13,8 @@ public class PublicAPIController : ControllerBase
         Product result = InventoryWorker.SearchBySKU(input);
         if (result.Name == null) { return NotFound("Product not found"); }
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine("Name                           |Quantity |   Price");
-        builder.AppendLine($"{result.Name,-30} |{result.Quantity,8} | {result.Price,7}");
+        builder.AppendLine("ID | Name                           |Quantity |   Price");
+        builder.AppendLine($"{result.Id} | {result.Name,-30} |{result.Quantity,8} | {result.Price,7}");
 
         return Ok(builder.ToString());
     }
@@ -29,10 +29,10 @@ public class PublicAPIController : ControllerBase
             return NotFound("No products found.");
         }
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine("Name                           |Quantity |   Price");
+        builder.AppendLine("ID | Name                           |Quantity |   Price");
         foreach (Product result in results)
         {
-            builder.AppendLine($"{result.Name,-30} |{result.Quantity,8} | {result.Price,7}");
+            builder.AppendLine($"{result.Id} | {result.Name,-30} |{result.Quantity,8} | {result.Price,7}");
         }
         return Ok(builder.ToString());
     }

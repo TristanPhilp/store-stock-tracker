@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using store_stock_tracker.Data;
+using store_stock_tracker.Models;
 using store_stock_tracker.src.WebAPI.Utils;
+using System.Text;
 
 namespace store_stock_tracker.src.WebAPI
 {
@@ -16,19 +18,43 @@ namespace store_stock_tracker.src.WebAPI
 
             return Ok(history);
         }
-        [HttpGet("Process Restock")]
-        public IActionResult ReStock([FromQuery] int id)
-        {
-            var history = InventoryWorker.GetHistoryById(id);
-
-            return Ok(history);
-        }
         [HttpGet("Display Items Needing Stock")]
-        public IActionResult ReStockSearch([FromQuery] int id)
+        public IActionResult ReStockSearch()
         {
-            var history = InventoryWorker.GetHistoryById(id);
+            List<Product> results = InventoryWorker.RestockSearch();
 
-            return Ok(history);
+            if (results.Count == 0)
+            {
+                return NotFound("No products found.");
+            }
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Name                           |Quantity |   Price | Restock Threshold");
+            foreach (Product result in results)
+            {
+                builder.AppendLine($"{result.Name,-30} |{result.Quantity,8} | {result.Price,7} | {result.Restock_Threshold}");
+            }
+            return Ok(builder.ToString());
+        }
+        [HttpPost("Process Restock")]
+        public IActionResult ReStock([FromQuery] int id, int amount)
+        {
+            var restock = InventoryWorker.ReStock(id, amount);
+
+            return Ok();
+        }
+        [HttpPost("Update Prices")]
+        public IActionResult UpdatePrice([FromQuery] int id, int amount)
+        {
+            var restock = InventoryWorker.UpdatePrice(id, amount);
+
+            return Ok();
+        }
+        [HttpPost("Update Restock Threshold")]
+        public IActionResult UpdateReStock([FromQuery] int id, int amount)
+        {
+            var restock = InventoryWorker.SetReStock(id, amount);
+
+            return Ok();
         }
     }
 }

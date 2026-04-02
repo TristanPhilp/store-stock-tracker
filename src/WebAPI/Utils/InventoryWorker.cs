@@ -6,6 +6,12 @@ namespace store_stock_tracker.src.WebAPI.Utils
 {
     public class InventoryWorker
     {
+        public static List<Product> FullInventory()
+        {
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<Product> results = instance.SelectProducts($"SELECT * FROM Products'");
+            return results;
+        }
         //Returns the first fuzzy match for a given SKU code
         public static Product SearchBySKU(string sku)
         {
@@ -80,6 +86,14 @@ namespace store_stock_tracker.src.WebAPI.Utils
             {
                 return 2;
             }
+        }
+
+        public static List<ProductHistory> GetHistoryById(int id)
+        {
+            //TODO: Add range modifier
+            InventoryAccessor instance = InventoryAccessor.GetInstance();
+            List<ProductHistory> results = instance.SelectHistory($"SELECT * FROM ProductHistories WHERE ProductId = '{id}'");
+            return results;
         }
     }
 }

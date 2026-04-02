@@ -14,6 +14,8 @@ namespace store_stock_tracker.src.Tools
 
         private static InventoryAccessor instance;
 
+        
+
         private InventoryAccessor()
         {
             connection = new SQLiteConnection("Data Source=inventory.db");
@@ -90,7 +92,7 @@ namespace store_stock_tracker.src.Tools
         {
             IValidationStrategy strategy = new SelectValidator();
             List<ProductHistory> histories = new List<ProductHistory>();
-            if (strategy.Validate(query, "ProductHistory"))
+            if (strategy.Validate(query, "ProductHistories"))
             {
                 var command = connection.CreateCommand();
                 command.CommandText = query;
@@ -100,13 +102,13 @@ namespace store_stock_tracker.src.Tools
                     {
                         ProductHistory history = new ProductHistory();
                         history.Id = reader.GetInt32(0);
-                        history.ProductId = reader.GetInt32(0);
-                        history.ProductName = reader.GetString(1);
-                        history.ProductSKU = reader.GetString(2);
-                        history.ProductQuantity = reader.GetInt32(3);
+                        history.ProductId = reader.GetInt32(1);
+                        history.ProductName = reader.GetString(2);
+                        history.ProductSKU = reader.GetString(3);
+                        history.ProductQuantity = reader.GetInt32(7);
                         history.ProductPrice = reader.GetDecimal(4);
                         history.Action = reader.GetString(5);
-                        history.Timestamp = reader.GetDateTime(6);
+                        history.Timestamp = DateTime.Parse(reader.GetString(6));
 
                         histories.Add(history);
                     }
@@ -134,7 +136,9 @@ namespace store_stock_tracker.src.Tools
                 }
 
             }
-            command.CommandText = $"INSERT INTO ProductHistories VALUES (" +
+            command.CommandText = $"INSERT INTO ProductHistories" +
+                $"(ProductId, ProductName, ProductSKU, ProductQuantity, ProductPrice, Action, Timestamp)" +
+                $" VALUES (" +
                             $"'{history.ProductId}'," +
                             $"'{history.ProductName}'," +
                             $"'{history.ProductSKU}'," +
